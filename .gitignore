@@ -1,0 +1,23 @@
+# Dependencies (Backend & Frontend)
+node_modules/
+frontend/node_modules/
+
+# Angular Builds
+frontend/.angular/
+frontend/dist/
+frontend/tmp/
+
+# C++ Executables & Binaries
+*.exe
+*.out
+*.o
+*.obj
+parser_engine
+
+# OS & Logs
+*.log
+.DS_Store
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
