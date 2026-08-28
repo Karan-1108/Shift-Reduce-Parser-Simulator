@@ -1,0 +1,20 @@
+<div class="main-container">
+  <h2>Compiler Design: Shift-Reduce SLR(1) Parser Simulator</h2>
+  
+  <app-control-panel (parse)="onParse($event)"></app-control-panel>
+
+  <div *ngIf="errorMessage" class="error-banner">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="result">
+    <app-benchmark [data]="result.benchmark"></app-benchmark>
+    
+    <div class="grid-two-col">
+      <app-symbol-table [symbols]="result.symbols"></app-symbol-table>
+      <app-tac-view [instructions]="result.tac"></app-tac-view>
+    </div>
+
+    <app-trace-table [trace]="result.trace"></app-trace-table>
+  </div>
+</div>
