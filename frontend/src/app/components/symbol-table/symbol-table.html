@@ -1,1 +1,24 @@
-<p>symbol-table works!</p>
+<div *ngIf="symbols.length > 0" class="section">
+    <div class="section-heading">
+        <span class="icon-circle symbol-icon">
+            <i class="fa-solid fa-table-list"></i>
+        </span>
+        <h3>Symbol Table</h3>
+    </div>
+	<table class="styled-table">
+		<thead>
+			<tr>
+                <th>Identifier</th>
+                <th>Data Type</th>
+                <th>Occurrence Order</th>
+            </tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let sym of symbols">
+				<td><code>{{ sym.name }}</code></td>
+				<td>{{ sym.type }}</td>
+				<td>{{ sym.order }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

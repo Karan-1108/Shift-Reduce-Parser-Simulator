@@ -1,1 +1,21 @@
-<p>benchmark works!</p>
+<div *ngIf="data" class="benchmark-card">
+    <i class="fa-solid fa-chart-column"></i>
+	<h3>Parser Performance Comparison</h3>
+	<div class="metrics-grid">
+		<div class="metric">
+            <i class="fa-regular fa-clock"></i>
+            <span class="label">SLR(1) Execution Time:</span> 
+            <span class="val">{{ data.slrTimeMs }} ms</span>
+        </div>
+		<div class="metric">
+            <i class="fa-solid fa-rotate"></i>
+            <span class="label">Recursive Descent Time:</span> 
+            <span class="val">{{ data.rdTimeMs }} ms</span>
+        </div>
+		<div class="metric">
+            <i class="fa-solid fa-layer-group"></i>
+            <span class="label">RD Peak Call Stack Depth:</span> 
+            <span class="val">{{ data.rdPeakStackDepth }}</span>
+        </div>
+	</div>
+</div>

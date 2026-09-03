@@ -1,1 +1,29 @@
-<p>trace-table works!</p>
+<div *ngIf="trace.length > 0" class="section">
+	<div class="section-heading">
+        <span class="icon-circle trace-icon">
+            <i class="fa-solid fa-list-ol"></i>
+        </span>
+        <h3>SLR(1) Parsing Step-by-Step Trace</h3>
+    </div>
+	<table class="styled-table">
+		<thead>
+			<tr>
+				<th>Step</th>
+				<th>Parser State Stack</th>
+				<th>Input Buffer</th>
+				<th>Action Taken</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let row of trace"
+					[class.shift-row]="row.action.includes('Shift')"
+					[class.reduce-row]="row.action.includes('Reduce')"
+					[class.accept-row]="row.action.includes('Accept')">
+				<td>{{ row.step }}</td>
+				<td><code>{{ row.stack }}</code></td>
+				<td><code>{{ row.buffer }}</code></td>
+				<td><strong>{{ row.action }}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

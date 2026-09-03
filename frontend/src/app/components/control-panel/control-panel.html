@@ -1,1 +1,10 @@
-<p>control-panel works!</p>
+<div class="control-box">
+	<label for="expr">Input Arithmetic Expression:</label>
+	<div class="input-row">
+		<input id="expr" #exprInput type="text" value="a + b * c" (keyup.enter)="submit(exprInput.value)">
+		<button (click)="submit(exprInput.value)">
+            <i class="fa-solid fa-play"></i>
+            Parse Expression
+        </button>
+	</div>
+</div>
