@@ -21,8 +21,8 @@ private:
     void trackDepthLeave() { currentDepth--; }
 
     bool parseE();
-    bool parseEPrime();
     bool parseT();
-    bool parseTPrime();
     bool parseF();
+    bool parseU();
+    bool parseP();
 };

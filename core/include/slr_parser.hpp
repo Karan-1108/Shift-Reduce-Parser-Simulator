@@ -25,9 +25,16 @@ private:
     TACGenerator tacGen;
     std::vector<ParseStepTrace> traceLog;
     
-    struct StackNode {
-        int state;
-        std::string symbol;
-        std::string place;
-    };
+    std::vector<Token> tokStream;
+    size_t index = 0;
+    std::vector<std::string> traceStack;
+
+    bool parseE(std::string& place);
+    bool parseT(std::string& place);
+    bool parseF(std::string& place);
+    bool parseU(std::string& place);
+    bool parseP(std::string& place);
+    bool consume(TokenType type, const char* action, std::string* place = nullptr);
+    void reduce(const std::string& rule, const std::string& place);
+    void addTrace(const std::string& action);
 };

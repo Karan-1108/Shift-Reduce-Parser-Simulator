@@ -1,20 +1,88 @@
-<div class="main-container">
-  <h2>Compiler Design: Shift-Reduce SLR(1) Parser Simulator</h2>
+<div class="page-layout">
+  <main class="main-container">
+    <h2>Compiler Design: Shift-Reduce SLR(1) Parser Simulator</h2>
   
-  <app-control-panel (parse)="onParse($event)"></app-control-panel>
+    <app-control-panel (parse)="onParse($event)"></app-control-panel>
 
-  <div *ngIf="errorMessage" class="error-banner">
-    {{ errorMessage }}
-  </div>
-
-  <div *ngIf="result">
-    <app-benchmark [data]="result.benchmark"></app-benchmark>
-    
-    <div class="grid-two-col">
-      <app-symbol-table [symbols]="result.symbols"></app-symbol-table>
-      <app-tac-view [instructions]="result.tac"></app-tac-view>
+    <div *ngIf="errorMessage" class="error-banner">
+      {{ errorMessage }}
     </div>
 
-    <app-trace-table [trace]="result.trace"></app-trace-table>
+    <div *ngIf="result">
+      <app-benchmark [data]="result.benchmark"></app-benchmark>
+      
+      <div class="grid-two-col">
+        <app-symbol-table [symbols]="result.symbols"></app-symbol-table>
+        <app-tac-view [instructions]="result.tac"></app-tac-view>
+      </div>
+
+      <app-trace-table [trace]="result.trace"></app-trace-table>
+    </div>
+  </main>
+
+  <aside class="side-column">
+    <button type="button" class="about-button" (click)="openAbout()">
+      <span aria-hidden="true">ⓘ</span>
+      About the Project
+    </button>
+
+    <section class="team-panel-animated" aria-label="Project Team">
+      <div class="team-panel-header">
+        <span class="team-icon">⚡</span>
+        <span class="team-heading">Project Team</span>
+      </div>
+      <div class="team-members-list">
+        <div class="member-card">
+          <span class="member-name">Karan Singh</span>
+          <span class="member-reg">24BCI0287</span>
+        </div>
+        <div class="member-card">
+          <span class="member-name">Shalini Anand</span>
+          <span class="member-reg">24BDS0043</span>
+        </div>
+        <div class="member-card">
+          <span class="member-name">Jia Kumar</span>
+          <span class="member-reg">24BDS0228</span>
+        </div>
+      </div>
+    </section>
+  </aside>
+
+  <div *ngIf="isAboutOpen" class="about-overlay" (click)="closeAbout()">
+    <section
+      class="about-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="about-title"
+      (click)="$event.stopPropagation()"
+    >
+      <button type="button" class="about-close" aria-label="Close About the Project" (click)="closeAbout()">&times;</button>
+      <p class="about-eyebrow">Compiler Construction</p>
+      <h2 id="about-title">About the Project</h2>
+      <b>
+      <p>
+        A Shift-Reduce Parser Simulator (SLR1) is a tool that demonstrates bottom-up parsing,
+        a technique widely used in real compilers but rarely implemented hands-on due to its complexity.
+      </p>
+      <p>
+        It works on a fixed arithmetic grammar using a pre-derived, hardcoded SLR(1) ACTION/GOTO
+        table instead of building a full LR-table generator.
+      </p>
+      <p>
+        The simulator begins with a lexical analyzer that converts an input expression into a stream
+        of tokens. It then uses a parser stack and the SLR(1) table to repeatedly perform shift,
+        reduce, accept, or error actions until the input is fully parsed or an error is detected.
+      </p>
+      <p>
+        Alongside parsing, it builds a symbol table, recording each identifier's name, type, and order
+        of appearance, and performs basic semantic checks like flagging undeclared identifiers.
+        During reduce actions, it also generates three-address code (TAC) using temporary variables.
+      </p>
+      <p>
+        Each parsing step is visualized through a step-by-step trace showing the stack state, input
+        buffer, and action taken. This links syntax analysis to semantic analysis and code generation.
+      </p>
+      </b>
+    </section>
   </div>
 </div>

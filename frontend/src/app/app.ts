@@ -13,8 +13,17 @@ export class AppComponent {
   result: ParseResult | null = null;
   errorMessage: string = '';
   isParsing = false;
+  isAboutOpen = false;
 
   constructor(private parserService: ParserService) {}
+
+  openAbout(): void {
+    this.isAboutOpen = true;
+  }
+
+  closeAbout(): void {
+    this.isAboutOpen = false;
+  }
 
   onParse(expression: string) {
     this.errorMessage = '';

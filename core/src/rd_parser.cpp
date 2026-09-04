@@ -8,7 +8,7 @@ ComparisonMetrics RecursiveDescentParser::parse(const std::vector<Token>& tokens
     maxDepth = 0;
 
     auto start = std::chrono::high_resolution_clock::now();
-    bool res = parseE() && (tokStream[index].type == TokenType::END_OF_FILE);
+    bool res = parseE() && index < tokStream.size() && tokStream[index].type == TokenType::END_OF_FILE;
     auto end = std::chrono::high_resolution_clock::now();
 
     double elapsed = std::chrono::duration<double, std::milli>(end - start).count();
@@ -17,56 +17,68 @@ ComparisonMetrics RecursiveDescentParser::parse(const std::vector<Token>& tokens
 
 bool RecursiveDescentParser::parseE() {
     trackDepthEnter();
-    bool ok = parseT() && parseEPrime();
-    trackDepthLeave();
-    return ok;
-}
-
-bool RecursiveDescentParser::parseEPrime() {
-    trackDepthEnter();
-    if (tokStream[index].type == TokenType::PLUS) {
+    bool ok = parseT();
+    while (ok && index < tokStream.size() && (tokStream[index].type == TokenType::PLUS || tokStream[index].type == TokenType::MINUS)) {
         index++;
-        bool ok = parseT() && parseEPrime();
-        trackDepthLeave();
-        return ok;
+        ok = parseT();
     }
     trackDepthLeave();
-    return true;
+    return ok;
 }
 
 bool RecursiveDescentParser::parseT() {
     trackDepthEnter();
-    bool ok = parseF() && parseTPrime();
+    bool ok = parseF();
+    while (ok && index < tokStream.size() && (tokStream[index].type == TokenType::STAR || tokStream[index].type == TokenType::SLASH)) {
+        index++;
+        ok = parseF();
+    }
     trackDepthLeave();
     return ok;
 }
 
-bool RecursiveDescentParser::parseTPrime() {
-    trackDepthEnter();
-    if (tokStream[index].type == TokenType::STAR) {
-        index++;
-        bool ok = parseF() && parseTPrime();
-        trackDepthLeave();
-        return ok;
-    }
-    trackDepthLeave();
-    return true;
-}
-
 bool RecursiveDescentParser::parseF() {
     trackDepthEnter();
-    if (tokStream[index].type == TokenType::ID) {
+    bool ok = parseU();
+    while (ok && index < tokStream.size() && tokStream[index].type == TokenType::CARET) {
+        index++;
+        ok = parseU();
+    }
+    trackDepthLeave();
+    return ok;
+}
+
+bool RecursiveDescentParser::parseU() {
+    trackDepthEnter();
+    bool ok;
+    if (index < tokStream.size() && tokStream[index].type == TokenType::MINUS) {
+        index++;
+        ok = parseU();
+    } else {
+        ok = parseP();
+    }
+    trackDepthLeave();
+    return ok;
+}
+
+bool RecursiveDescentParser::parseP() {
+    trackDepthEnter();
+    if (index >= tokStream.size()) {
+        trackDepthLeave();
+        return false;
+    }
+    if (tokStream[index].type == TokenType::ID || tokStream[index].type == TokenType::NUM) {
         index++;
         trackDepthLeave();
         return true;
-    } else if (tokStream[index].type == TokenType::LPAREN) {
+    }
+    if (tokStream[index].type == TokenType::LPAREN) {
         index++;
-        if (parseE()) {
-            if (tokStream[index].type == TokenType::RPAREN) {
-                index++;
-                trackDepthLeave();
-                return true;
-            }
+        bool ok = parseE();
+        if (ok && index < tokStream.size() && tokStream[index].type == TokenType::RPAREN) {
+            index++;
+            trackDepthLeave();
+            return true;
         }
     }
     trackDepthLeave();

@@ -2,7 +2,19 @@
 #include <string>
 #include <vector>
 
-enum class TokenType { ID, PLUS, STAR, LPAREN, RPAREN, END_OF_FILE, INVALID };
+enum class TokenType {
+    ID,
+    NUM,
+    PLUS,
+    MINUS,
+    STAR,
+    SLASH,
+    CARET,
+    LPAREN,
+    RPAREN,
+    END_OF_FILE,
+    INVALID
+};
 
 struct Token {
     TokenType type;
